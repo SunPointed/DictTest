@@ -1,5 +1,6 @@
 package sunpointed.lqy.dicttest;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,7 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import static sunpointed.lqy.dicttest.R.id.fl_container;
+import static sunpointed.lqy.dicttest.R.id.v_nav_dict;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -17,11 +23,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout mLlFind;
     LinearLayout mLlMine;
 
+    RelativeLayout mRlSearch;
+
+    View mVDict;
+    View mVFind;
+    View mVMine;
+    int mVBackColor = 0xFFF8BBD0;
+    int mVClearColor = 0x00FFFFFF;
+
+    DictFragment mDictFragment;
+    FindFragment mFindFragment;
+
+    android.support.v4.app.FragmentManager mFManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mToolbar.setTitle("DictTest");
+//        mToolbar.setSubtitle("xxx");
+//        mToolbar.setLogo(R.drawable.dict);
         setSupportActionBar(mToolbar);
 
         mLlDict = (LinearLayout) findViewById(R.id.ll_nav_dict);
@@ -30,6 +52,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLlFind.setOnClickListener(this);
         mLlMine = (LinearLayout) findViewById(R.id.ll_nav_mine);
         mLlMine.setOnClickListener(this);
+        mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
+        mRlSearch.setOnClickListener(this);
+
+        mVDict = findViewById(R.id.v_nav_dict);
+        mVDict.setBackgroundColor(mVBackColor);
+        mVFind = findViewById(R.id.v_nav_find);
+        mVMine = findViewById(R.id.v_nav_mine);
+
+        mDictFragment = new DictFragment();
+        mFindFragment = new FindFragment();
+
+        mFManager = getSupportFragmentManager();
+
+        mFManager.beginTransaction().add(R.id.fl_container, mFindFragment).commit();
+        mFManager.beginTransaction().hide(mFindFragment).commit();
+        mFManager.beginTransaction().add(R.id.fl_container, mDictFragment).commit();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_search) {
+            // TODO: 16/5/26  
+        } else if(id == R.id.action_new_words){
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -66,6 +106,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
+        setVBackColor(id);
+        if(id == R.id.ll_nav_dict){
+            mFManager.beginTransaction().show(mDictFragment).commit();
+            mFManager.beginTransaction().hide(mFindFragment).commit();
+        }else if(id == R.id.ll_nav_find){
+            mFManager.beginTransaction().show(mFindFragment).commit();
+            mFManager.beginTransaction().hide(mDictFragment).commit();
+        }else if(id == R.id.ll_nav_mine){
+            // TODO: 16/5/26  
+        }else if(id == R.id.rl_search){
 
+        }
+    }
+
+    private void setVBackColor(int id){
+        if(id == R.id.ll_nav_dict){
+            mVDict.setBackgroundColor(mVBackColor);
+            mVFind.setBackgroundColor(mVClearColor);
+            mVMine.setBackgroundColor(mVClearColor);
+        }else if(id == R.id.ll_nav_find){
+            mVDict.setBackgroundColor(mVClearColor);
+            mVFind.setBackgroundColor(mVBackColor);
+            mVMine.setBackgroundColor(mVClearColor);
+        }else if(id == R.id.ll_nav_mine){
+            mVDict.setBackgroundColor(mVClearColor);
+            mVFind.setBackgroundColor(mVClearColor);
+            mVMine.setBackgroundColor(mVBackColor);
+        }
     }
 }

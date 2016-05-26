@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -12,12 +13,52 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent" />-->
 
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="#F8BBD0">
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:background="#FFFFFF"/>
+
+        <View
+            android:layout_toRightOf="@+id/tv_search"
+            android:id="@+id/v_space"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:background="#FF99D0"/>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/v_space"
+            android:scaleType="fitCenter"
+            android:src="@drawable/search_white"
+            android:background="#FF99D0"/>
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/iv_search"
+            android:gravity="center|left"
+            android:text="@string/search"
+            android:textColor="#FFFFFFFF"
+            android:background="#FF99D0"/>
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_nav"
-        />
+        android:layout_below="@+id/rl_search" />
 
     <LinearLayout
         android:id="@+id/ll_nav"
@@ -40,12 +81,14 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/dict" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
+                android:gravity="center"
                 android:text="@string/nav_dict" />
 
         </LinearLayout>
@@ -64,12 +107,14 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/find" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
+                android:gravity="center"
                 android:text="@string/nav_find" />
 
         </LinearLayout>
@@ -88,12 +133,14 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mine" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
+                android:gravity="center"
                 android:text="@string/nav_mine" />
 
         </LinearLayout>
