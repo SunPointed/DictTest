@@ -1,20 +1,14 @@
 package sunpointed.lqy.dicttest;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import static sunpointed.lqy.dicttest.R.id.fl_container;
-import static sunpointed.lqy.dicttest.R.id.v_nav_dict;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -98,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.action_search) {
             // TODO: 16/5/26  
         } else if(id == R.id.action_new_words){
-
+            Intent intent = new Intent(MainActivity.this, NewWordsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -117,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id == R.id.ll_nav_mine){
             // TODO: 16/5/26  
         }else if(id == R.id.rl_search){
-
+            // TODO: 16/5/27
         }
     }
 

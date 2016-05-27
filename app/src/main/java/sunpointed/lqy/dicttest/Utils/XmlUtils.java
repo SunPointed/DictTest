@@ -1,6 +1,5 @@
 package sunpointed.lqy.dicttest.Utils;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.xml.sax.Attributes;
@@ -11,7 +10,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -43,7 +41,65 @@ public class XmlUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        for (int i = 0; i < array.size(); i++) {
+            array.get(i).yinbiao = XmlUtils.convertHtml2String(array.get(i).yinbiao);
+        }
+
         return array;
+    }
+
+    public static String convertHtml2String(String dataStr) {
+        if (dataStr == null || dataStr.length() == 0) {
+            return dataStr;
+        }
+
+        int start = 0, end;
+        final StringBuffer buffer = new StringBuffer();
+
+        while (start > -1) {
+            int system = 10;
+            if (start == 0) {
+                int t = dataStr.indexOf("&#");
+                if (start != t)
+                    start = t;
+
+                if (start > 0) {
+                    buffer.append(dataStr.substring(0, start));
+                }
+
+                if (start == -1) {
+                    return dataStr;
+                }
+            }
+            end = dataStr.indexOf(";", start + 2);
+            String charStr;
+            if (end != -1) {
+                charStr = dataStr.substring(start + 2, end);
+                char s = charStr.charAt(0);
+                if (s == 'x' || s == 'X') {
+                    system = 16;
+                    charStr = charStr.substring(1);
+                }
+                try {
+                    char letter = (char) Integer.parseInt(charStr, system);
+                    buffer.append(Character.valueOf(letter).toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            start = dataStr.indexOf("&#", end);
+            if (start - end > 1) {
+                buffer.append(dataStr.substring(end + 1, start));
+            }
+            if (start == -1) {
+                int length = dataStr.length();
+                if (end + 1 != length) {
+                    buffer.append(dataStr.substring(end + 1, length));
+                }
+            }
+        }
+        return buffer.toString();
     }
 
     public static class SAXHandler extends DefaultHandler {
@@ -53,7 +109,7 @@ public class XmlUtils {
         private int mSize;
         private int[] mCount = {0, 0};
 
-        public SAXHandler(SparseArray<DictItemBean> items){
+        public SAXHandler(SparseArray<DictItemBean> items) {
             super();
             mItems = items;
             mSize = 0;
@@ -81,7 +137,7 @@ public class XmlUtils {
         @Override
         public void endElement(String uri, String localName, String qName)
                 throws SAXException {
-            if(localName.equals("yourword")){
+            if (localName.equals("yourword")) {
                 mItems.put(mSize, currentItem);
                 mSize++;
             }
@@ -102,18 +158,18 @@ public class XmlUtils {
                 } else if (tagName.equals("keyword")) {
                     currentItem.keyword = data;
                 } else if (tagName.equals("yinbiao")) {
-                    if(mCount[0] == 0) {
+                    if (mCount[0] == 0) {
                         currentItem.yinbiao = data;
                         mCount[0]++;
-                    }else if(mCount[0] == 1){
+                    } else if (mCount[0] == 1) {
                         currentItem.yinbiao += data;
                     }
                 } else if (tagName.equals("explain")) {
                     mCount[0] = 0;
-                    if(mCount[1] == 0) {
+                    if (mCount[1] == 0) {
                         currentItem.explain = data;
                         mCount[1]++;
-                    }else if(mCount[1] == 1){
+                    } else if (mCount[1] == 1) {
                         currentItem.explain += data;
                     }
                 } else if (tagName.equals("subaudio")) {
@@ -122,9 +178,9 @@ public class XmlUtils {
                 } else if (tagName.equals("wordaudio")) {
                     currentItem.wordaudio = data;
                 } else if (tagName.equals("subid")) {
-                    currentItem.subid = Integer.valueOf(data);
+                    currentItem.subid = Integer.valueOf("".equals(data) ? "0" : data);
                 } else if (tagName.equals("sid")) {
-                    currentItem.sid = Integer.valueOf(data);
+                    currentItem.sid = Integer.valueOf("".equals(data) ? "0" : data);
                 } else if (tagName.equals("filmname")) {
                     currentItem.filmname = data;
                 } else if (tagName.equals("filmid")) {

@@ -2,6 +2,8 @@
     <string name="app_name">DictTest</string>
     <string name="action_search">search</string>
     <string name="action_new_words">new words</string>
+    <string name="action_review">复习检测</string>
+    <string name="new_words_name">生词本</string>
     <string name="nav_dict">词典</string>
     <string name="nav_find">发现</string>
     <string name="nav_mine">我的</string>
@@ -16,4 +18,6 @@
     <string name="dict_item_view">查看上下文</string>
     <string name="dict_item_add_new">添加生词本</string>
     <string name="dict_item_from">出自</string>
+    <string name="new_words_item_suggest">左右轻滑条目可从生词本删除</string>
+    <string name="new_words_item_delete">移除</string>
 </resources>
