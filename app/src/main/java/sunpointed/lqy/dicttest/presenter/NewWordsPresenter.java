@@ -22,4 +22,8 @@ public class NewWordsPresenter {
     public void setNewWordsToView(Context context){
         mView.setNewWords(mModel.getNewWords(context));
     }
+
+    public void removeWord(int id){
+
+    }
 }

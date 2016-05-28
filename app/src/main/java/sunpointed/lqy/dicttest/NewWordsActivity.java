@@ -5,17 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import sunpointed.lqy.dicttest.bean.DictItemBean;
 import sunpointed.lqy.dicttest.presenter.DictPresenter;
@@ -37,6 +42,14 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
     ListView mLvNewWords;
     NewWordsAdapter mAdapter;
 
+    private float mPrimeX;
+    private float mPrimeY;
+    private int mPosition;
+    private boolean mIsPositionChanged = false;
+    private RelativeLayout mTempRl;
+    private Button mTempBtn;
+    private ImageView mTempImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +60,45 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
         setSupportActionBar(mToolbar);
 
         mLvNewWords = (ListView) findViewById(R.id.lv_new_words);
+        mLvNewWords.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                ListView lv = (ListView) v;
+
+                if(action == MotionEvent.ACTION_DOWN){
+                    if(mIsPositionChanged) {
+                        if(mTempImg != null && mTempBtn != null) {
+                            mTempBtn.setVisibility(View.GONE);
+                            mTempImg.setVisibility(View.VISIBLE);
+                        }
+                        mIsPositionChanged = false;
+                    }
+                    mPrimeX = event.getX();
+                    mPrimeY = event.getY();
+                } else if(action == MotionEvent.ACTION_MOVE){
+                    float dx = Math.abs(event.getX() - mPrimeX);
+                    float dy = Math.abs(event.getY() - mPrimeY);
+                    mPosition = (int) event.getY();
+
+                    if(!mIsPositionChanged && dx > dy && dx > 100){
+                        int itemHeight = lv.getChildAt(0).getMeasuredHeight();
+                        mPosition = mPosition/itemHeight;
+
+                        mTempRl = (RelativeLayout) lv.getChildAt(mPosition);
+                        mTempBtn = (Button) mTempRl.findViewById(R.id.btn_new_delete);
+                        mTempImg = (ImageView) mTempRl.findViewById(R.id.iv_new);
+
+                        mTempBtn.setVisibility(View.VISIBLE);
+                        mTempImg.setVisibility(View.GONE);
+
+                        mIsPositionChanged = true;
+                    }
+                }
+                return false;
+            }
+        });
+
         mNewWordsItems = new SparseArray<>();
         mAdapter = new NewWordsAdapter(mNewWordsItems, this);
         mLvNewWords.setAdapter(mAdapter);
@@ -85,17 +137,25 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
 
     class NewWordsAdapter extends BaseAdapter{
 
-        SparseArray<DictItemBean> mItems;
+        ArrayList<DictItemBean> mItems = new ArrayList<>();
         LayoutInflater mInflater;
 
 
         public NewWordsAdapter(SparseArray<DictItemBean> array, Context context){
-            mItems = array;
+            int size = array.size();
+            for(int i=0; i<size; i++){
+                mItems.add(array.get(i));
+            }
+//            mItems = array;
             mInflater = LayoutInflater.from(context);
         }
 
         public void setItems(SparseArray<DictItemBean> array){
-            mItems = array;
+            int size = array.size();
+            for(int i=0; i<size; i++){
+                mItems.add(array.get(i));
+            }
+//            mItems = array;
             notifyDataSetChanged();
         }
 
@@ -115,7 +175,7 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if(convertView == null){
                 convertView = mInflater.inflate(R.layout.new_words_item, null);
@@ -137,7 +197,9 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 16/5/27
+                    mPresenter.removeWord(position);
+                    mItems.remove(position);
+                    NewWordsAdapter.this.notifyDataSetChanged();
                 }
             });
 

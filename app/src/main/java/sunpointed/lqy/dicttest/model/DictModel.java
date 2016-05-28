@@ -28,10 +28,13 @@ import sunpointed.lqy.dicttest.presenter.DictPresenter;
 public class DictModel {
 
     public static final String TAG = "DictModel";
+    public static final int UP = 0;
+    public static final int DOWN = 1;
 
     SparseArray<DictItemBean> mItems;
     DictStoreHelper mHelper;
     DictPresenter mPresenter;
+    int mUpOrDown;
 
 //    private long mIndexOfNewWord;
 
@@ -42,8 +45,8 @@ public class DictModel {
         mPresenter = presenter;
     }
 
-    public void getDictItems() {
-
+    public void getDictItems(int upOrDown) {
+        mUpOrDown = upOrDown;
         Call<ResponseBody> call = NetUtils.itemsService.getItems();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -57,8 +60,12 @@ public class DictModel {
                     if (mItems == null) {
                         mItems = temp;
                     } else {
-                        for (int i = 0; i < temp.size(); i++) {
-                            mItems.append(mItems.size(), temp.get(i));
+                        if(mUpOrDown == UP){
+                            mItems = temp;
+                        } else {
+                            for (int i = 0; i < temp.size(); i++) {
+                                mItems.append(mItems.size(), temp.get(i));
+                            }
                         }
                     }
                     mPresenter.setItemsToView(mItems);

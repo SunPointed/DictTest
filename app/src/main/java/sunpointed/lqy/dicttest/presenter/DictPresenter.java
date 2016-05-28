@@ -19,8 +19,8 @@ public class DictPresenter {
         mModel = new DictModel(this);
     }
 
-    public void getItemsFromModel(){
-        mModel.getDictItems();
+    public void getItemsFromModel(int upOrDown){
+        mModel.getDictItems(upOrDown);
     }
 
     public void setItemsToView(SparseArray<DictItemBean> items){

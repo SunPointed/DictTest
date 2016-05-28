@@ -23,6 +23,7 @@ import sunpointed.lqy.dicttest.Utils.AudioUtils;
 import sunpointed.lqy.dicttest.Utils.NetUtils;
 import sunpointed.lqy.dicttest.bean.DictItemBean;
 import sunpointed.lqy.dicttest.customviews.LoadingView;
+import sunpointed.lqy.dicttest.model.DictModel;
 import sunpointed.lqy.dicttest.presenter.DictPresenter;
 import sunpointed.lqy.dicttest.view.DictView;
 
@@ -85,13 +86,13 @@ public class DictFragment extends Fragment implements DictView {
                             && event.getY() - mPrimeY > 200) {
                         mCanRefresh = false;
                         mLvMain.setVisibility(View.VISIBLE);
-                        mPresenter.getItemsFromModel();
+                        mPresenter.getItemsFromModel(DictModel.UP);
                     }
                     if (mCanRefresh && llManger.findViewByPosition(llManger.findLastVisibleItemPosition()).getBottom() == mRvMain.getHeight()
                             && mPrimeY - event.getY() > 200) {
                         mCanRefresh = false;
                         mLvMain.setVisibility(View.VISIBLE);
-                        mPresenter.getItemsFromModel();
+                        mPresenter.getItemsFromModel(DictModel.DOWN);
                     }
                 }
                 return false;
@@ -101,7 +102,7 @@ public class DictFragment extends Fragment implements DictView {
         mAdapter = new RvMainAdapter(getContext(), mDictItems);
         mRvMain.setAdapter(mAdapter);
 
-        mPresenter.getItemsFromModel();
+        mPresenter.getItemsFromModel(DictModel.UP);
 
         return rootView;
     }
