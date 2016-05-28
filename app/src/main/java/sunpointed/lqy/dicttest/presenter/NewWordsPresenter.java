@@ -23,7 +23,7 @@ public class NewWordsPresenter {
         mView.setNewWords(mModel.getNewWords(context));
     }
 
-    public void removeWord(int id){
-
+    public void removeWord(Context context, String word){
+        mModel.removeWord(context, word);
     }
 }

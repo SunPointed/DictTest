@@ -45,7 +45,7 @@ public class DictStoreHelper extends SQLiteOpenHelper {
                     SUB_IMG + " varchar, " +
                     SUB_EN + " varchar, " +
                     SUB_CN + " varchar, " +
-                    KEY_WORD + " varchar, " +
+                    KEY_WORD + " varchar unique, " +
                     YIN_BIAO + " varchar, " +
                     EXPLAIN + " varchar, " +
                     SUB_AUDIO + " varchar, " +

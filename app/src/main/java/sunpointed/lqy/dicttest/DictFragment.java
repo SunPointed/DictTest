@@ -1,6 +1,7 @@
 package sunpointed.lqy.dicttest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,7 +64,6 @@ public class DictFragment extends Fragment implements DictView {
         mLvMain = (LoadingView) rootView.findViewById(R.id.lv_main);
         mRvMain = (RecyclerView) rootView.findViewById(R.id.rv_main);
         mRvMain.setLayoutManager(new LinearLayoutManager(getContext()));
-//        mRvMain.addItemDecoration(new ListItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
         //this is used for refresh at the top or the bottom
         mRvMain.setOnTouchListener(new View.OnTouchListener() {
@@ -169,7 +170,7 @@ public class DictFragment extends Fragment implements DictView {
             holder.mTvCn.setText(bean.subcn);
 
             holder.mTvWord.setText(bean.keyword);
-            holder.mTvSymbol.setText(bean.yinbiao);
+            holder.mTvSymbol.setText(bean.yinbiao + bean.explain);
             holder.mTvFrom.setText(bean.filmname);
 
             holder.mIvRead.setOnClickListener(new View.OnClickListener() {
@@ -228,11 +229,9 @@ public class DictFragment extends Fragment implements DictView {
             holder.mTvView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 16/5/27
-//                    SparseArray<DictItemBean> array = mPresenter.getNewWords(getContext());
-//                    for(int i=0; i<array.size(); i++){
-//                        Log.i("lqy","---->" + array.get(i).subimg);
-//                    }
+                    Intent intent = new Intent(DictFragment.this.getActivity(), DictItemContentActivity.class);
+                    intent.putExtra(DictItemContentActivity.SUBID, mDictItems.get(position).subid + "");
+                    DictFragment.this.getContext().startActivity(intent);
                 }
             });
             holder.mTvAdd.setOnClickListener(new View.OnClickListener() {
@@ -261,9 +260,9 @@ public class DictFragment extends Fragment implements DictView {
             TextView mTv46;
             ImageView mIvRead;
 
-            TextView mTvRead;
-            TextView mTvView;
-            TextView mTvAdd;
+            Button mTvRead;
+            Button mTvView;
+            Button mTvAdd;
 
             public RvMainViewHolder(View itemView) {
                 super(itemView);
@@ -278,9 +277,9 @@ public class DictFragment extends Fragment implements DictView {
                 mTv46 = (TextView) itemView.findViewById(R.id.tv_dict_46);
                 mIvRead = (ImageView) itemView.findViewById(R.id.iv_dict_read);
 
-                mTvRead = (TextView) itemView.findViewById(R.id.tv_dict_read);
-                mTvView = (TextView) itemView.findViewById(R.id.tv_dict_view);
-                mTvAdd = (TextView) itemView.findViewById(R.id.tv_dict_add_new);
+                mTvRead = (Button) itemView.findViewById(R.id.tv_dict_read);
+                mTvView = (Button) itemView.findViewById(R.id.tv_dict_view);
+                mTvAdd = (Button) itemView.findViewById(R.id.tv_dict_add_new);
             }
         }
     }

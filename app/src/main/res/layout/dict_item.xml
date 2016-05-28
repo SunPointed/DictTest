@@ -122,12 +122,12 @@
         android:layout_height="30dp"
         android:orientation="horizontal">
 
-        <TextView
+        <Button
             android:id="@+id/tv_dict_read"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#DDDDDD"
+            android:background="@drawable/dict_btn_back"
             android:gravity="center"
             android:text="@string/dict_item_read"
             android:textColor="#888888" />
@@ -137,12 +137,12 @@
             android:layout_height="match_parent"
             android:background="#888888" />
 
-        <TextView
+        <Button
             android:id="@+id/tv_dict_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#DDDDDD"
+            android:background="@drawable/dict_btn_back"
             android:gravity="center"
             android:text="@string/dict_item_view"
             android:textColor="#888888" />
@@ -152,12 +152,12 @@
             android:layout_height="match_parent"
             android:background="#888888" />
 
-        <TextView
+        <Button
             android:id="@+id/tv_dict_add_new"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#DDDDDD"
+            android:background="@drawable/dict_btn_back"
             android:gravity="center"
             android:text="@string/dict_item_add_new"
             android:textColor="#888888" />

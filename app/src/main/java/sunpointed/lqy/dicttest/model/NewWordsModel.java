@@ -3,6 +3,7 @@ package sunpointed.lqy.dicttest.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.util.SparseArray;
 
 import sunpointed.lqy.dicttest.bean.DictItemBean;
@@ -28,10 +29,10 @@ public class NewWordsModel {
             mHelper = new DictStoreHelper(context.getApplicationContext(), "dict.db", null, 1);
         }
         SQLiteDatabase database = mHelper.getReadableDatabase();
-
         Cursor cursor = database.query(DictStoreHelper.TABLE_NAME, null, null, null, null, null, null);
-        cursor.moveToFirst();
-        while (cursor.moveToNext()){
+
+        boolean isExist = cursor.moveToFirst();
+        while (isExist){
             DictItemBean bean = new DictItemBean();
             bean.subimg = cursor.getString(cursor.getColumnIndex(DictStoreHelper.SUB_IMG));
             bean.suben = cursor.getString(cursor.getColumnIndex(DictStoreHelper.SUB_EN));
@@ -46,8 +47,25 @@ public class NewWordsModel {
             bean.filmname = cursor.getString(cursor.getColumnIndex(DictStoreHelper.FILM_NAME));
             bean.filmid = cursor.getString(cursor.getColumnIndex(DictStoreHelper.FILM_ID));
             array.append(array.size(), bean);
+
+            isExist = cursor.moveToNext();
         }
 
+        cursor.close();
+        database.close();
+
         return array;
+    }
+
+    public void removeWord(Context context, String word) {
+        if (mHelper == null) {
+            mHelper = new DictStoreHelper(context.getApplicationContext(), "dict.db", null, 1);
+        }
+        SQLiteDatabase database = mHelper.getWritableDatabase();
+
+        Log.i("lqy","word--->" + word);
+        String args[] = {word};
+        database.delete(DictStoreHelper.TABLE_NAME, DictStoreHelper.KEY_WORD + "=?", args);
+        database.close();
     }
 }

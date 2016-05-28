@@ -1,11 +1,9 @@
 package sunpointed.lqy.dicttest;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,9 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import sunpointed.lqy.dicttest.bean.DictItemBean;
-import sunpointed.lqy.dicttest.presenter.DictPresenter;
 import sunpointed.lqy.dicttest.presenter.NewWordsPresenter;
-import sunpointed.lqy.dicttest.view.DictView;
 import sunpointed.lqy.dicttest.view.NewWordsView;
 
 /**
@@ -56,8 +52,14 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
         setContentView(R.layout.activity_new_words);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_new_words);
         mToolbar.setTitle(R.string.new_words_name);
-        mToolbar.setLogo(R.drawable.back);
+        mToolbar.setNavigationIcon(R.drawable.back);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewWordsActivity.this.finish();
+            }
+        });
 
         mLvNewWords = (ListView) findViewById(R.id.lv_new_words);
         mLvNewWords.setOnTouchListener(new View.OnTouchListener() {
@@ -80,19 +82,23 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
                     float dx = Math.abs(event.getX() - mPrimeX);
                     float dy = Math.abs(event.getY() - mPrimeY);
                     mPosition = (int) event.getY();
-
-                    if(!mIsPositionChanged && dx > dy && dx > 100){
-                        int itemHeight = lv.getChildAt(0).getMeasuredHeight();
+                    int itemHeight;
+                    if(lv.getChildAt(0) != null){
+                        itemHeight = lv.getChildAt(0).getMeasuredHeight();
                         mPosition = mPosition/itemHeight;
+                        if(!mIsPositionChanged && lv.getChildAt(mPosition) != null && dx > dy && dx > 100){
 
-                        mTempRl = (RelativeLayout) lv.getChildAt(mPosition);
-                        mTempBtn = (Button) mTempRl.findViewById(R.id.btn_new_delete);
-                        mTempImg = (ImageView) mTempRl.findViewById(R.id.iv_new);
 
-                        mTempBtn.setVisibility(View.VISIBLE);
-                        mTempImg.setVisibility(View.GONE);
 
-                        mIsPositionChanged = true;
+                            mTempRl = (RelativeLayout) lv.getChildAt(mPosition);
+                            mTempBtn = (Button) mTempRl.findViewById(R.id.btn_new_delete);
+                            mTempImg = (ImageView) mTempRl.findViewById(R.id.iv_new);
+
+                            mTempBtn.setVisibility(View.VISIBLE);
+                            mTempImg.setVisibility(View.GONE);
+
+                            mIsPositionChanged = true;
+                        }
                     }
                 }
                 return false;
@@ -197,9 +203,14 @@ public class NewWordsActivity extends AppCompatActivity implements NewWordsView 
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.removeWord(position);
+                    mPresenter.removeWord(v.getContext(), mItems.get(position).keyword);
                     mItems.remove(position);
+
+                    mTempBtn.setVisibility(View.GONE);
+                    mTempImg.setVisibility(View.VISIBLE);
+
                     NewWordsAdapter.this.notifyDataSetChanged();
+
                 }
             });
 
