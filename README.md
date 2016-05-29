@@ -2,10 +2,13 @@
 -------------
 ####示例:  
 
-！[]（http://7o4zmy.com1.z0.glb.clouddn.com/2015-11-24%2023_16_17.gif)
-！[]（http://7o4zmy.com1.z0.glb.clouddn.com/2015-11-24%2023_16_17.gif)
-！[]（http://7o4zmy.com1.z0.glb.clouddn.com/2015-11-24%2023_16_17.gif)
-！[]（http://7o4zmy.com1.z0.glb.clouddn.com/2015-11-24%2023_16_17.gif)
+！[]（https://github.com/SunPointed/DictTest/blob/master/img/show1.png)
+<br />
+！[]（https://github.com/SunPointed/DictTest/blob/master/img/show2.png)
+<br />
+！[]（https://github.com/SunPointed/DictTest/blob/master/img/show3.png)
+<br />
+！[]（https://github.com/SunPointed/DictTest/blob/master/img/show4.png)
 
 <!-- ###特性（可选）
 - 特性A
