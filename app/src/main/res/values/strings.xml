@@ -4,6 +4,8 @@
     <string name="action_new_words">new words</string>
     <string name="action_review">复习检测</string>
     <string name="action_text">Dict</string>
+    <string name="action_user_register">新用户注册</string>
+    <string name="action_user_login">用户登录</string>
     <string name="new_words_name">生词本</string>
     <string name="nav_dict">词典</string>
     <string name="nav_find">发现</string>
@@ -21,4 +23,13 @@
     <string name="dict_item_from">出自</string>
     <string name="new_words_item_suggest">左右轻滑条目可从生词本删除</string>
     <string name="new_words_item_delete">移除</string>
+    <string name="mine_login">用户登录</string>
+    <string name="mine_email">输入邮箱或昵称</string>
+    <string name="mine_password">输入密码</string>
+    <string name="mine_login_btn">登录</string>
+    <string name="register_email">请输入您的电子邮箱</string>
+    <string name="register_nickname">请输入昵称</string>
+    <string name="register_password">请设置密码</string>
+    <string name="register_register">用户注册</string>
+    <string name="register_login_btn">注册</string>
 </resources>

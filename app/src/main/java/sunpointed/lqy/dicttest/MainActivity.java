@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mFManager.beginTransaction().show(mFindFragment).commit();
             mFManager.beginTransaction().hide(mDictFragment).commit();
         }else if(id == R.id.ll_nav_mine){
-            // TODO: 16/5/26  
+            Intent intent = new Intent(MainActivity.this, MineActivity.class);
+            MainActivity.this.startActivity(intent);
         }else if(id == R.id.rl_search){
             // TODO: 16/5/27
         }
@@ -125,10 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mVDict.setBackgroundColor(mVClearColor);
             mVFind.setBackgroundColor(mVBackColor);
             mVMine.setBackgroundColor(mVClearColor);
-        }else if(id == R.id.ll_nav_mine){
-            mVDict.setBackgroundColor(mVClearColor);
-            mVFind.setBackgroundColor(mVClearColor);
-            mVMine.setBackgroundColor(mVBackColor);
         }
     }
 }
